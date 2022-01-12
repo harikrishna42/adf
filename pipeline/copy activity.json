@@ -27,11 +27,7 @@
 						}
 					},
 					"sink": {
-						"type": "SqlMISink",
-						"tableOption": {
-							"value": "@{variables('tablename')}",
-							"type": "Expression"
-						}
+						"type": "SqlMISink"
 					},
 					"enableStaging": false,
 					"translator": {
