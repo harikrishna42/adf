@@ -1,0 +1,12 @@
+{
+	"name": "AzureSql_address_table",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlLinkedService",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlMITable",
+		"schema": []
+	}
+}
