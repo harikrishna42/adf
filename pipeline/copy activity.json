@@ -27,8 +27,7 @@
 						}
 					},
 					"sink": {
-						"type": "SqlMISink",
-						"tableOption": "autoCreate"
+						"type": "SqlMISink"
 					},
 					"enableStaging": false,
 					"translator": {
@@ -54,6 +53,11 @@
 				]
 			}
 		],
+		"variables": {
+			"temp": {
+				"type": "Array"
+			}
+		},
 		"annotations": []
 	}
 }
