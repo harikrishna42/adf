@@ -27,7 +27,11 @@
 						}
 					},
 					"sink": {
-						"type": "SqlMISink"
+						"type": "SqlMISink",
+						"tableOption": {
+							"value": "@{variables('tablename')}",
+							"type": "Expression"
+						}
 					},
 					"enableStaging": false,
 					"translator": {
@@ -56,6 +60,10 @@
 		"variables": {
 			"temp": {
 				"type": "Array"
+			},
+			"tablename": {
+				"type": "String",
+				"defaultValue": "address"
 			}
 		},
 		"annotations": []
