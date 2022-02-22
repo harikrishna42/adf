@@ -1,0 +1,9 @@
+{
+	"name": "practiceFlows",
+	"location": "southindia",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "aca353f0-9efe-4ccc-a607-4263c693044f",
+		"tenantId": "6dba777c-7033-4ab8-8a93-46304e7ee1b4"
+	}
+}
