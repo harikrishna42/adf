@@ -1,5 +1,5 @@
 {
-	"name": "copy activity",
+	"name": "Copy_from_adl_to_sqlserver",
 	"properties": {
 		"activities": [
 			{
@@ -127,6 +127,23 @@
 				]
 			}
 		],
+		"parameters": {
+			"tablename": {
+				"type": "string"
+			},
+			"tableid": {
+				"type": "string"
+			},
+			"adl_src_filename": {
+				"type": "string"
+			},
+			"adl_des_filename": {
+				"type": "string"
+			},
+			"adl_src_path": {
+				"type": "string"
+			}
+		},
 		"variables": {
 			"temp": {
 				"type": "Array"
