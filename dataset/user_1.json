@@ -10,7 +10,7 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
-				"fileName": "bigCountries_world.csv",
+				"fileName": "userdata1.parquet",
 				"fileSystem": "source"
 			},
 			"compressionCodec": "snappy"

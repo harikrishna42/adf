@@ -60,7 +60,13 @@
 				"outputs": [
 					{
 						"referenceName": "data_container",
-						"type": "DatasetReference"
+						"type": "DatasetReference",
+						"parameters": {
+							"filename": {
+								"value": "@variables('filename')",
+								"type": "Expression"
+							}
+						}
 					}
 				]
 			},
@@ -86,7 +92,10 @@
 					],
 					"storeSettings": {
 						"type": "AzureBlobFSReadSettings",
-						"modifiedDatetimeStart": "2022-07-30T00:00:00.000Z",
+						"modifiedDatetimeStart": {
+							"value": "@getPastTime(1, 'Day')",
+							"type": "Expression"
+						},
 						"modifiedDatetimeEnd": {
 							"value": "@utcnow()",
 							"type": "Expression"
