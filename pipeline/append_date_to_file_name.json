@@ -5,7 +5,14 @@
 			{
 				"name": "Copy data1",
 				"type": "Copy",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "Set variable1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
 				"policy": {
 					"timeout": "7.00:00:00",
 					"retry": 0,
@@ -23,16 +30,97 @@
 							"enablePartitionDiscovery": false
 						}
 					},
-					"enableStaging": false
+					"sink": {
+						"type": "DelimitedTextSink",
+						"storeSettings": {
+							"type": "AzureBlobFSWriteSettings"
+						},
+						"formatSettings": {
+							"type": "DelimitedTextWriteSettings",
+							"quoteAllText": true,
+							"fileExtension": ".txt"
+						}
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
 				},
 				"inputs": [
 					{
 						"referenceName": "user_1",
 						"type": "DatasetReference"
 					}
+				],
+				"outputs": [
+					{
+						"referenceName": "data_container",
+						"type": "DatasetReference"
+					}
 				]
+			},
+			{
+				"name": "Get Metadata1",
+				"type": "GetMetadata",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataset": {
+						"referenceName": "user_1",
+						"type": "DatasetReference"
+					},
+					"fieldList": [
+						"itemName"
+					],
+					"storeSettings": {
+						"type": "AzureBlobFSReadSettings",
+						"modifiedDatetimeStart": "2022-07-30T00:00:00.000Z",
+						"modifiedDatetimeEnd": {
+							"value": "@utcnow()",
+							"type": "Expression"
+						},
+						"enablePartitionDiscovery": false
+					}
+				}
+			},
+			{
+				"name": "Set variable1",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "Get Metadata1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "filename",
+					"value": {
+						"value": "@activity('Get Metadata1').output.itemName",
+						"type": "Expression"
+					}
+				}
 			}
 		],
+		"variables": {
+			"filename": {
+				"type": "String"
+			}
+		},
 		"annotations": []
 	}
 }
