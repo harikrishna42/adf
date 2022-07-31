@@ -1,5 +1,5 @@
 {
-	"name": "Copy_from_adl_to_sqlserver",
+	"name": "Copy_from_adl_to_adls",
 	"properties": {
 		"activities": [
 			{
