@@ -111,15 +111,12 @@
 			}
 		],
 		"variables": {
-			"temp": {
-				"type": "Array"
-			},
-			"tablename": {
-				"type": "String",
-				"defaultValue": "address"
-			},
 			"filename": {
-				"type": "String"
+				"type": "Array",
+				"defaultValue": [
+					"user1",
+					"user2"
+				]
 			}
 		},
 		"annotations": []
