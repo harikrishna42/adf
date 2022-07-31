@@ -1,0 +1,19 @@
+{
+	"name": "adls_data_parquet",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureDataLakeStorage_source_container",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Parquet",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileSystem": "data"
+			},
+			"compressionCodec": "snappy"
+		},
+		"schema": []
+	}
+}
