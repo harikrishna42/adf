@@ -16,22 +16,15 @@
 				"userProperties": [],
 				"typeProperties": {
 					"items": {
-						"value": "@activity('Filter1').output",
+						"value": "@activity('Get Metadata1').output.childItems",
 						"type": "Expression"
 					},
-					"batchCount": 2,
+					"isSequential": true,
 					"activities": [
 						{
 							"name": "Copy data from ADF to sql server",
 							"type": "Copy",
-							"dependsOn": [
-								{
-									"activity": "Filter1",
-									"dependencyConditions": [
-										"Succeeded"
-									]
-								}
-							],
+							"dependsOn": [],
 							"policy": {
 								"timeout": "7.00:00:00",
 								"retry": 0,
@@ -46,10 +39,7 @@
 									"storeSettings": {
 										"type": "AzureBlobFSReadSettings",
 										"recursive": true,
-										"wildcardFileName": {
-											"value": "@activity('Filter1').output",
-											"type": "Expression"
-										},
+										"wildcardFileName": "*.csv",
 										"enablePartitionDiscovery": false
 									}
 								},
@@ -84,22 +74,6 @@
 									"type": "DatasetReference"
 								}
 							]
-						},
-						{
-							"name": "Filter1",
-							"type": "Filter",
-							"dependsOn": [],
-							"userProperties": [],
-							"typeProperties": {
-								"items": {
-									"value": "@item().name",
-									"type": "Expression"
-								},
-								"condition": {
-									"value": "@contains(item().name, '.parquet')",
-									"type": "Expression"
-								}
-							}
 						}
 					]
 				}
@@ -126,9 +100,72 @@
 					],
 					"storeSettings": {
 						"type": "AzureBlobFSReadSettings",
+						"recursive": true,
 						"enablePartitionDiscovery": false
 					}
 				}
+			},
+			{
+				"name": "Copy data from ADF to sql server_copy1",
+				"type": "Copy",
+				"dependsOn": [
+					{
+						"activity": "Get Metadata1",
+						"dependencyConditions": [
+							"Failed"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "ParquetSource",
+						"storeSettings": {
+							"type": "AzureBlobFSReadSettings",
+							"maxConcurrentConnections": 1,
+							"recursive": true,
+							"wildcardFileName": "*.parquet",
+							"enablePartitionDiscovery": false
+						}
+					},
+					"sink": {
+						"type": "ParquetSink",
+						"storeSettings": {
+							"type": "AzureBlobFSWriteSettings"
+						},
+						"formatSettings": {
+							"type": "ParquetWriteSettings"
+						}
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "adls_source_parquet",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "adls_data_parquet",
+						"type": "DatasetReference"
+					}
+				]
 			}
 		],
 		"variables": {
