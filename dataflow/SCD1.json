@@ -1,0 +1,50 @@
+{
+	"name": "SCD1",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "adls_csv_source_DF",
+						"type": "DatasetReference"
+					},
+					"name": "ADLSsource"
+				}
+			],
+			"sinks": [
+				{
+					"name": "sink1"
+				}
+			],
+			"transformations": [
+				{
+					"name": "denseRank"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          name as string,",
+				"          continent as string,",
+				"          area as integer,",
+				"          population as integer,",
+				"          gdp as long",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     enableCdc: true,",
+				"     mode: 'read',",
+				"     skipInitialLoad: false,",
+				"     multiLineRow: true) ~> ADLSsource",
+				"ADLSsource window(over(continent),",
+				"     asc(population, true)) ~> denseRank",
+				"denseRank sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     outputAssertFailedRows: true) ~> sink1"
+			]
+		}
+	}
+}
