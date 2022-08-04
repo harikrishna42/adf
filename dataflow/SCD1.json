@@ -23,6 +23,10 @@
 				}
 			],
 			"scriptLines": [
+				"parameters{",
+				"     name as string (\"Ravi\"),",
+				"     age as integer (123)",
+				"}",
 				"source(output(",
 				"          name as string,",
 				"          continent as string,",
@@ -42,8 +46,7 @@
 				"denseRank sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true,",
-				"     outputAssertFailedRows: true) ~> sink1"
+				"     skipDuplicateMapOutputs: true) ~> sink1"
 			]
 		}
 	}
